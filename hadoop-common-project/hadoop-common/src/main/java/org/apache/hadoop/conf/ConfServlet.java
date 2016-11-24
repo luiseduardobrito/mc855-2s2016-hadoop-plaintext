@@ -42,6 +42,7 @@ public class ConfServlet extends HttpServlet {
 
   protected static final String FORMAT_JSON = "json";
   protected static final String FORMAT_XML = "xml";
+  protected static final String FORMAT_PLAIN_TEXT = "text";
 
   /**
    * Return the Configuration of the daemon hosting this servlet.
@@ -99,6 +100,8 @@ public class ConfServlet extends HttpServlet {
       Configuration.dumpConfiguration(conf, propertyName, out);
     } else if (FORMAT_XML.equals(format)) {
       conf.writeXml(propertyName, out);
+    } else if(FORMAT_PLAIN_TEXT.equals(format)){
+      conf.writePlainText(conf, propertyName, out);
     } else {
       throw new BadFormatException("Bad format: " + format);
     }

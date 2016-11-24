@@ -2824,6 +2824,32 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       finalParameters.add(attr);
     }
   }
+  
+  /**
+   * Write out the non-default properties in this configuration to the given
+   * {@link OutputStream} using UTF-8 encoding as plain text.
+   *
+   * @param out the output stream to write to.
+   */
+  public void writePlainText(Configuration config, OutputStream out) throws IOException {
+    writePlainText(config, new OutputStreamWriter(out, "UTF-8"));
+  }
+
+  public void writePlainText(Configuration config, Writer out) throws IOException {
+    writePlainText(config, null, out);
+  }
+
+  public void writePlainText(Configuration config, String propertyName, Writer out)
+      throws IOException, IllegalArgumentException {
+
+        synchronized (config) {
+          for (Map.Entry<Object,Object> item: config.getProps().entrySet()) {
+        	  out.write(String.format("%s=\"%s\"", item.getKey(), item.getValue()));
+        	  out.close();
+          }
+        }
+
+  }
 
   /** 
    * Write out the non-default properties in this configuration to the given
